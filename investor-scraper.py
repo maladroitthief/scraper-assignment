@@ -1,7 +1,7 @@
 import json
 import scrapy
 from scrapy.crawler import CrawlerProcess
-
+from urllib.parse import urlparse
 
 amplify_urls = []
 
@@ -21,6 +21,8 @@ class AmplifySpider(scrapy.Spider):
                 continue
 
             url = company.css("div.website__link-wr > a::attr('href')").get()
+            url = urlparse(url).hostname
+            url = url.replace("www.", "")
             self.results.append(url)
 
     def close(self, ):
